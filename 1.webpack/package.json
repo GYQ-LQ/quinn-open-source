@@ -1,0 +1,28 @@
+{
+  "name": "quinn-sorce-webpack",
+  "version": "1.0.0",
+  "description": "实现一个webpack",
+  "main": "bundler.js",
+  "scripts": {
+    "build": "node ./bundler.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/GYQ-LQ/quinn-source-code.git"
+  },
+  "keywords": [
+    "webpack"
+  ],
+  "author": "quinn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GYQ-LQ/quinn-source-code/issues"
+  },
+  "homepage": "https://github.com/GYQ-LQ/quinn-source-code#readme",
+  "devDependencies": {
+    "@babel/core": "^7.13.14",
+    "@babel/parser": "^7.13.13",
+    "@babel/preset-env": "^7.13.12",
+    "@babel/traverse": "^7.13.13"
+  }
+}
