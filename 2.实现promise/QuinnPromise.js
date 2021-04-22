@@ -1,7 +1,7 @@
 /*
  * @Author: Quinn
  * @Date: 2021-04-01 13:41:29
- * @LastEditTime: 2021-04-01 17:58:09
+ * @LastEditTime: 2021-04-19 22:03:15
  * @LastEditors: quinn
  * @Description:  手写 Promise
  * 1、核心逻辑
@@ -96,13 +96,16 @@ class QuinnPromise {
     value = null;
     // 失败之后的原因
     reason = null;
+    // 存储成功回调函数
+    onFulfilledCallbacks = [];
+    // 存储失败回调函数
+    onRejectedCallbacks = [];
 
     /* resolve 和 reject为什么要用箭头函数？
     如果直接调用的话，普通函数this指向的是window或者undefined
     用箭头函数就可以让this指向当前实例对象 */
     // 更改成功后的状态
     resolve = (value) => {
-        console.log('resolve:', value);
         // 只有状态是等待，才执行状态修改
         if (this.status === PENDING) {
             // 状态修改为成功
@@ -128,7 +131,6 @@ class QuinnPromise {
     };
     // resolve 静态方法
     static resolve(parameter) {
-        console.log('static:', parameter);
         // 如果传入 QuinnPromise 就直接返回
         if (parameter instanceof QuinnPromise) {
             return parameter;
@@ -146,11 +148,6 @@ class QuinnPromise {
             reject(reason);
         });
     }
-
-    // 存储成功回调函数
-    onFulfilledCallbacks = [];
-    // 存储失败回调函数
-    onRejectedCallbacks = [];
 
     then(onFulfilled, onRejected) {
         // 如果不传，就使用默认函数
