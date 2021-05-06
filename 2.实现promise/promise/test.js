@@ -1,22 +1,25 @@
 /*
  * @Author: Quinn
  * @Date: 2021-04-19 20:56:03
- * @LastEditTime: 2021-04-19 21:36:38
+ * @LastEditTime: 2021-04-22 16:38:48
  * @LastEditors: quinn
- * @Description:  
+ * @Description:
  */
-const Promise = require('./promise');
-console.log('1');
+const Promise = require("./promise");
+console.log("1");
 new Promise((resolve, reject) => {
-    console.log('2');
-    setTimeout(() => {
-        console.log('aaa');
-        resolve('bbb')
-    });
-}).then(value => {
-    console.log('4');
-    console.log('value:', value);
-}, reason => {
-    console.log('reason:', reason);
-})
-console.log('3');
+  console.log("2");
+  setTimeout(() => {
+    console.log("aaa");
+    resolve("bbb");
+  });
+}).then(
+  (value) => {
+    console.log("4");
+    console.log("value:", value);
+  },
+  (reason) => {
+    console.log("reason:", reason);
+  }
+);
+console.log("3");
