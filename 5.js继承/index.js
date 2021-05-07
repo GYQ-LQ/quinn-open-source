@@ -1,16 +1,16 @@
 /*
  * @Author: Quinn
  * @Date: 2021-04-10 19:21:31
- * @LastEditTime: 2021-04-10 20:54:23
+ * @LastEditTime: 2021-05-06 10:57:14
  * @LastEditors: quinn
- * @Description:  
+ * @Description:
  */
 
 function Person(name) {
-    this.name = name;
-    this.info = function () {
-        console.log(this.name, '/', this.age);
-    }
+  this.name = name;
+  this.info = function () {
+    console.log(this.name, "/", this.age);
+  };
 }
 Person.prototype.age = 10;
 
@@ -23,13 +23,13 @@ Person.prototype.age = 10;
 　　　3、所有新实例都会共享父类实例的属性。（原型上的属性是共享的，一个实例修改了原型属性，另一个实例的原型属性也会被修改！）
 */
 function Per() {
-    this.name = 'jason';
+  this.name = "jason";
 }
 Per.prototype = new Person(); // 重点
-let p1 = new Per('peter') // 1 新实例无法向父类构造函数传参
-let p2 = new Per()
+let p1 = new Per("peter"); // 1 新实例无法向父类构造函数传参
+let p2 = new Per();
 Person.prototype.age = 11; // 3 所有新实例都会共享父类实例的属性
-p1.info()
+p1.info();
 console.log(p1.age);
 console.log(p2.age);
 console.log(p1 instanceof Person);
@@ -46,15 +46,14 @@ console.log(p1 instanceof Person);
 　　　3、每个新实例都有父类构造函数的副本，臃肿。
 */
 function Con(name) {
-    Person.call(this, name); // 重点
-    this.age = 12;
+  Person.call(this, name); // 重点
+  this.age = 12;
 }
-let con = new Con('ABC');
+let con = new Con("ABC");
 console.log(con.name);
 console.log(con.age);
-con.info()
+con.info();
 console.log(con instanceof Person); // false
-
 
 /* 
 组合继承（组合原型链继承和借用构造函数继承）（常用）
@@ -64,14 +63,14 @@ console.log(con instanceof Person); // false
 缺点：调用了两次父类构造函数（耗内存），子类的构造函数会代替原型上的那个父类构造函数。
 */
 function SubType(name) {
-    Person.call(this, name); // 构造函数继承
+  Person.call(this, name); // 构造函数继承
 }
 SubType.prototype = new Person(); // 原型链继承
-
-var sub = new SubType('SubName');
+SubType.prototype.constructor = SubType;
+var sub = new SubType("SubName");
 console.log(sub.name); // 继承构造函数属性
 console.log(sub.age); // 继承父类原型的属性
-sub.info()
+sub.info();
 console.log(sub instanceof Person);
 
 /* 
@@ -83,17 +82,16 @@ console.log(sub instanceof Person);
 */
 // 封装一个函数容器，用来输出对象和承载继承的原型
 function content(obj) {
-    function F() {}
-    F.prototype = obj; // 继承了传入的参数
-    return new F(); // 返回函数对象
+  function F() {}
+  F.prototype = obj; // 继承了传入的参数
+  return new F(); // 返回函数对象
 }
-let sup = new Person('quinn')
+let sup = new Person("quinn");
 var sup1 = content(sup); // 拿到父类的实例
 console.log(sup1.name);
 console.log(sup1.age);
 sup1.info();
 console.log(sup1 instanceof Person);
-
 
 /* 
 寄生式继承
@@ -103,21 +101,21 @@ console.log(sup1 instanceof Person);
 */
 
 function newcontent(obj) {
-    function F() {}
-    F.prototype = obj; // 继承了传入的参数
-    return new F(); // 返回函数对象
+  function F() {}
+  F.prototype = obj; // 继承了传入的参数
+  return new F(); // 返回函数对象
 }
 // 以上是原型式继承，给原型式继承再套个壳子传递参数
 function subobject(obj) {
-    var sub = newcontent(obj)
-    sub.name = 'gar'
-    return sub
+  var sub = newcontent(obj);
+  sub.name = "gar";
+  return sub;
 }
-let sp = new Person()
-var sup2 = subobject(sp)
+let sp = new Person();
+var sup2 = subobject(sp);
 console.log(sup2.name);
 console.log(sup2.age);
-sup2.info()
+sup2.info();
 console.log(sup2 instanceof Person);
 
 /* 
@@ -127,9 +125,9 @@ console.log(sup2 instanceof Person);
 重点：修复了组合继承的问题
 */
 function content(obj) {
-    function F() {}
-    F.prototype = obj; // 继承了传入的参数
-    return new F(); // 返回函数对象
+  function F() {}
+  F.prototype = obj; // 继承了传入的参数
+  return new F(); // 返回函数对象
 }
 // content 就是F实例饿的另一种表示法
 var mycon = content(Person.prototype);
@@ -138,14 +136,14 @@ var mycon = content(Person.prototype);
 
 // 组合
 function Sub(name) {
-    Person.call(this, name); // 这个继承了父类构造函数的属性
+  Person.call(this, name); // 这个继承了父类构造函数的属性
 } // 解决了组合式两次调用构造函数的缺点
 // 重点
 Sub.prototype = mycon; // 继承了con实例
 mycon.constructor = Sub; // 修复实例
-var mysub = new Sub('aaa')
+var mysub = new Sub("aaa");
 console.log(mysub.age);
 console.log(mysub.name);
 console.log(mysub.age);
-mysub.info()
+mysub.info();
 console.log(mysub instanceof Person);
