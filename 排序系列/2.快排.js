@@ -1,11 +1,12 @@
 /*
  * @Author: Quinn
  * @Date: 2021-05-07 08:58:33
- * @LastEditTime: 2021-05-07 09:05:11
+ * @LastEditTime: 2021-05-08 15:53:08
  * @LastEditors: quinn
  * @Description:
  */
 function quick(list, left = 0, right = list.length - 1) {
+    if (list.length <= 1) return list;
     if (left < right) {
         let parInd = getParIndex(list, left, right);
         quick(list, left, parInd - 1);
@@ -15,15 +16,19 @@ function quick(list, left = 0, right = list.length - 1) {
 }
 function getParIndex(list, left, right) {
     let pivot = list[left],
-        i = left;
+        startInd = left;
     while (left < right) {
-        while (left < right && list[right] > pivot) right--;
-        while (left < right && list[left] <= pivot) left++;
+        while (left < right && list[right] > pivot) {
+            right--;
+        }
+        while (left < right && list[left] <= pivot) {
+            left++;
+        }
         if (left < right) {
             swap(list, left, right);
         }
     }
-    swap(list, i, right);
+    swap(list, right, startInd);
     return right;
 }
 function swap(list, i, j) {
