@@ -1,7 +1,7 @@
 /*
  * @Author: Quinn
  * @Date: 2021-05-06 14:58:00
- * @LastEditTime: 2021-05-06 15:07:23
+ * @LastEditTime: 2021-05-08 16:24:50
  * @LastEditors: quinn
  * @Description:
  */
@@ -13,8 +13,7 @@ function curry(fn) {
     };
     return judge;
 }
-
-function partial(fn, args) {
+function partial(fn, ...args) {
     return (...arg) => {
         return fn(...args, ...arg);
     };
